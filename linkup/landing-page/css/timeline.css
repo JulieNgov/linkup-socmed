@@ -1,0 +1,59 @@
+.time-line {
+    padding: 0 30px;
+    width: 600px;
+}
+
+.post {
+    display: flex;
+    margin-top: 20px;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.main-post {
+    display: block;
+    padding-left: 20px;
+    border-left: 2px solid black;
+}
+
+.img-pfp {
+    display: flex;
+    justify-content: center;
+    padding-right: 10px;
+}
+
+.img-pfp img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.top-post {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    display: flex;
+}
+
+.name h2 {
+    font-size: 20px;
+}
+
+.name p {
+    padding-top: 5px;
+    padding-left: 2px;
+    font-size: 15px;
+    color: rgb(99, 99, 99);
+}
+
+.text-post p {
+    margin: 10px 0;
+}
+
+.img-post img {
+    border-radius: 10px;
+    width: 100%;
+}

@@ -1,0 +1,44 @@
+.edit-profile {
+    width: 600px;
+    border: 2px solid black;
+    position: fixed;
+    left: 10%;
+    top: 30%;
+    background-color: white;
+}
+
+.edit-profile h2 {
+    background-color: aquamarine;
+    padding: 10px;
+}
+
+.edits {
+    width: 200%;
+    display: table-caption;
+    padding: 5px;
+}
+
+.edits input {
+    margin: 10px;
+    padding-right: 100%;
+    border: 2px solid black;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+}
+
+.edits p {
+    margin-left: 10px;
+}
+
+.edits button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: rgb(191, 242, 225);
+}
+
+.edits button:hover {
+    background-color: black;
+    color: white;
+}

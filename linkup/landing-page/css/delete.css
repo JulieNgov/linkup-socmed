@@ -1,0 +1,20 @@
+#delete {
+    background-color: white;
+    padding: 20px;
+    border: 2px solid black;
+}
+
+#delete h1 {
+    padding: 50px;
+}
+
+#delete button {
+    background-color: rgb(191, 242, 225);
+    padding: 10px;
+    margin: 20px;
+}
+
+#delete button:hover {
+    background-color: black;
+    color: white;
+}

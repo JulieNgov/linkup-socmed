@@ -1,0 +1,67 @@
+.make-post {
+    border: 2px solid black;
+    position: fixed;
+    left: 10%;
+    top: 30%;
+    background-color: white;
+}
+
+.title-post {
+    background-color: aquamarine;
+    padding: 10px;
+}
+
+.make-post input{
+    width: 310px;
+    margin: 10px;
+    padding-right: 250px;
+    padding-bottom: 100px;
+    border: 2px solid black;
+}
+
+.tags input {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+.bottom-post {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.bottom-post a {
+    color: black;
+    font-size: 30px;
+}
+
+.bottom-post a:hover {
+    color: rgb(136, 163, 236);
+}
+
+.bottom-post i {
+    width: 50px;
+    size: 50px;
+}
+
+.bottom-post button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: rgb(191, 242, 225);
+}
+
+.bottom-post button.clic {
+    background-color: black;
+    color: white;
+}
+
+.bottom-post button:hover {
+    background-color: black;
+    color: white;
+}

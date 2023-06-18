@@ -1,0 +1,51 @@
+.all-form {
+    margin: 50px;
+    border: 2px solid black;
+    padding-bottom: 20px;
+}
+
+.all-form h1 {
+    padding: 10px;
+    background-color: rgb(191, 242, 225);
+    margin-bottom: 5px;
+}
+
+.form {
+    padding: 10px;
+    padding-bottom: 10px;
+}
+
+.form label {
+    padding-right: 10px;
+}
+
+.form input {
+    padding: 2px;
+}
+
+.all-form button {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(191, 242, 225);
+}
+
+.all-form button:hover {
+    background-color: black;
+    color: white;
+}
+
+.all-form a {
+    padding: 10px;
+    text-decoration: none;
+    color: rgb(82, 80, 80);
+}
+
+.all-form a:hover {
+    color: rgb(191, 242, 225);
+}
+
+.all-form p {
+    padding-top: 10px;
+    padding-left: 10px;
+}

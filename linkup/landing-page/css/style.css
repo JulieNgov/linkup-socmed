@@ -1,0 +1,39 @@
+@import url("side-nav.css");
+@import url("timeline.css");
+@import url("icon-post.css");
+@import url("tags.css");
+@import url("delete.css");
+@import url("make-poste.css");
+@import url("profile-edit.css");
+@import url("layout.css");
+@import url("forms.css");
+
+element {
+    --bg: rgb(191, 242, 225);
+    --main-color: black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    justify-content: block;
+}
+
+main {
+    display: flex;
+}
+
+.floating-button a {
+    font-size: 40px;
+    border-radius: 50%;
+    background-color: rgb(191, 242, 225);
+    color: rgb(3, 3, 3);
+    border: 2px solid rgb(255, 255, 255);
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgb(173, 172, 172);
+    position: fixed;
+    right: 30px;
+    bottom: 40px;
+
+}

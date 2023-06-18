@@ -1,0 +1,39 @@
+.icons-post {
+    justify-content: space-between;
+    display: flex;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.icon-post {
+    display: flex;
+}
+
+.icons-post p {
+    display: flex;
+    align-items: center;
+}
+
+.icon-post p {
+    padding-right: 20px;
+    color: rgb(191, 242, 225);
+}
+
+.icon-post a {
+    text-decoration: none;
+    padding: 0 5px;
+    color: black;
+}
+
+.icon-post .heart i:hover {
+    color: red;
+}
+
+.icon-post .comment i:hover {
+    color: black;
+}
+
+.trash a {
+    color: black;
+    padding-right: 10px;
+}

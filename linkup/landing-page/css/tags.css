@@ -1,0 +1,37 @@
+.AllTags {
+    display: block;
+    border-left: 2px solid black;
+    margin-left: 50px;
+    padding: 20px;
+}
+
+.AllTags h2 {
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(191, 242, 225);
+}
+
+.tags button:hover {
+    background-color: rgb(219, 247, 237);
+}
+
+.AllTags-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 820px) {
+    .AllTags {
+        display: none;
+    }
+
+    .AllTags-mobile {
+        display: block;
+        padding-top: 10px;
+    }
+}
