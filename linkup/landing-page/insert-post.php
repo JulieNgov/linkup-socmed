@@ -14,11 +14,12 @@ if (isset($_SESSION["user_id"])) {
 }
 
 require 'database.php';
-$insert = $database->prepare("INSERT INTO poster (user_id, contenu) VALUES (:users, :write)");
+$insert = $database->prepare("INSERT INTO poster (user_id, contenu, tag) VALUES (:users, :write, :tags)");
 $insert->execute(
     [
         "users" => $_SESSION["user_id"],
-        "write" => $_POST['poster']
+        "write" => $_POST['poster'],
+        "tags" => $_POST['tag']
     ]
 );
 

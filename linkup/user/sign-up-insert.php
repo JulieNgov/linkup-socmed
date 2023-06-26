@@ -2,6 +2,7 @@
 
 //Password verification
 //8 characters max
+//strlen : string length
 if (strlen($_POST["password"]) < 8) {
     die("Password must be at least 8 characters");
 }
@@ -12,6 +13,7 @@ if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
 }
 
 //One number min
+//preg_match : retourne s'il y a similitude dans un string
 if ( ! preg_match("/[0-9]/", $_POST["password"])) {
     die("Password must contain at least one number");
 }
@@ -21,7 +23,7 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
 }
 
-//Password security - Montre des chiffres et nombres random quand quelqu'un essaye de print
+//Password security - Met des chiffres et nombres random à la place du mdp
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require "db_conn.php";

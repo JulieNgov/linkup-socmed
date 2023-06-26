@@ -20,13 +20,16 @@ $requete = $database->prepare("SELECT * FROM tags");
 $requete->execute();
 $AllTags = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-$requete = $database->prepare("SELECT poster.id, poster.contenu, poster.date, myprofile.pseudo, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
+$requete = $database->prepare("SELECT poster.user_id, poster.id, poster.contenu, poster.tag, poster.date, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
                                 FROM poster
                                 INNER JOIN myprofile ON poster.user_id = myprofile.id
                                 INNER JOIN user ON poster.user_id = user.id
                                 ORDER BY poster.date DESC");
 $requete->execute();
 $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+$userID = $_SESSION['user_id'];
+
 
 ?>
 
@@ -88,10 +91,12 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             <section class="AllTags-mobile">
                 <h2>Search by tags</h2>
                 <div class="tags">
-                    <button class="btn" id="all">All</button>
-                    <?php foreach($AllTags as $tag) { ?>
-                        <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                    <?php } ?>
+                    <div id="myBtnContainer">
+                        <button class="btn active" onclick="filterSelection('all')">All</button>
+                        <?php foreach($AllTags as $tag) { ?>
+                            <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                        <?php } ?>
+                    </div>
                     <form class="form" method="POST" action="tags.php">
                         <input class="tags" type="text" name="tag" placeholder="New tag">
                     </form>
@@ -99,65 +104,72 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             </section>
 
             <?php foreach($Allposts as $posts){ ?>
-                <section class="post">
-                    <div class="img-pfp">
-                        <img src="../user/img/<?= $posts['file'] ?>" alt="pfp">
-                    </div>
-                    <section class="main-post">
-                        <div class="name">
-                            <h2><?= $posts['pseudo'] ?></h2>
-                            <p><?= $posts['name'] ?></p>
+                <div class="filterDiv <?= $posts['tag'] ?>">
+                    <section class="post">
+                        <div class="img-pfp">
+                            <img src="../user/img/<?= $posts['file'] ?>" alt="pfp">
                         </div>
+                        <section class="main-post">
+                            <div class="name">
+                                <h2><?= $posts['pseudo'] ?></h2>
+                                <p><?= $posts['name'] ?></p>
+                            </div>
 
-                        <div class="text-post">
-                            <p><?= $posts['contenu'] ?></p>
-                        </div>
+                            <div class="text-post">
+                                <p><?= $posts['contenu'] ?></p>
+                            </div>
 
-                        <div class="img-post">
-                            <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
-                        </div>
+                            <div class="img-post">
+                                <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
+                            </div>
+                        </section>
                     </section>
-                </section>
 
-                <div class="icons-post">
-                    <div class="icon-post">
-                        <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
-                        <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
-                        <button class="btn">Divers</button>
+                    <div class="icons-post">
+                        <div class="icon-post">
+                            <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
+                            <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
+                            <div class="container">
+                            <button class="btn"><?= $posts['tag'] ?></button>
+                            </div>
+                        </div>
+                    <?php if($posts['user_id'] == $userID) { ?>
+                        <div class="trash">
+                            <a href="#" onclick="document.getElementById('id01').style.display='block'"><i class="fa-solid fa-trash"></i></a>
+                        </div>
                     </div>
-                    <div class="trash">
-                        <a href="#" onclick="document.getElementById('id01').style.display='block'"><i class="fa-solid fa-trash"></i></a>
-                    </div>
+    
+                    <form action="../landing-page/delete.php" method="POST" id="delete">
+                        <h1>Delete post?</h1>
+                        <input type="hidden" name="supp" value="<?= $posts['id'] ?>">
+                        <button type="submit">Yes</button>
+                        <button type="button" onclick="closePopup()">No</button>
+                    </form>
+                <?php } ?>
                 </div>
-
-                <form action="../landing-page/delete.php" method="POST" id="delete">
-                    <h1>Delete post?</h1>
-                    <input type="hidden" name="supp" value="<?= $posts['id'] ?>">
-                    <button type="submit">Yes</button>
-                    <button type="button" onclick="closePopup()">No</button>
-                </form>
             <?php } ?>
         </section>
 
         <section class="AllTags">
             <h2>Search by tags</h2>
-            <div class="tags">
-                <button class="btn" id="all">All</button>
-                <?php foreach($AllTags as $tag) { ?>
-                    <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                <?php } ?>
-                <form class="form" method="POST" action="tags.php">
-                    <input class="tags" type="text" name="tag" placeholder="New tag">
-                </form>
-            </div>
+                <div class="tags">
+                    <div id="myBtnContainer">
+                        <button class="btn active" onclick="filterSelection('all')">All</button>
+                        <?php foreach($AllTags as $tag) { ?>
+                            <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                        <?php } ?>
+                    </div>
+                    <form class="form" method="POST" action="tags.php">
+                        <input class="tags" type="text" name="tag" placeholder="New tag">
+                    </form>
+                </div>
         </section>
-
     </main>
 
 <!-- Bouton poster -->
 <p class="floating-button">
         <a href="#" onclick="openPost();"><i class="fa-solid fa-pen"></i></a>
-    </p>
+</p>
 
 
 
@@ -168,9 +180,13 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" name="poster" value="<?= htmlspecialchars($_POST["contenu"] ?? "") ?>" placeholder="What's up?" required>
             
             <div class="tags">
-                <?php foreach($AllTags as $tag) { ?>
-                <button type="button" class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                <?php } ?>
+                <label for="tags">Tags</label>
+                <select name="tag" class="form-control">
+                    <option value="">Select a tag</option>
+                    <?php foreach($AllTags as $tag) { ?>
+                        <option value="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></option>
+                    <?php } ?>
+                </select>
             </div>
 
             <div class="bottom-post">

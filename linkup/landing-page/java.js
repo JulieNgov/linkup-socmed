@@ -1,19 +1,4 @@
-SuppContainer = document.querySelectorAll("#delete")
 PostContainer = document.querySelectorAll(".make-post")
-ChoixBoutons = document.querySelectorAll(".tags button")
-
-//Buttons
-ChoixBoutons.forEach((elements, choix) => {
-  elements.addEventListener("click", (src) => {
-      elements.classList.add("clic")
-  })
-})
-
-
-//Form Supprimer
-
-function closePopup() {
-}
 
 //Form ajouter poste
 PostContainer.forEach(() => {

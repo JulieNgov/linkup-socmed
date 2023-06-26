@@ -88,95 +88,103 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
 
         <section class="time-line">
 
-        <!--Layout-->
-        <section class="profile">
-            <?php foreach($FullProfile as $edit) { ?>
-                <div class="img">
-                    <img id="header" src="img/header.png" alt="header">
-                    <img id="icon" src="img/<?= $edit['file'] ?>" alt="pfp">
-                </div>
-                
-                <div class="name">
-                    <h2><?= $edit['pseudo']; ?></h2>
-                    <p>@<?= $user["name"]; ?></p>
-                </div>
-                <div class="bio">
-                    <p><?=$edit['bio']; ?></p>
-                </div>
-            <?php } ?>
-            <div class="follow">
-                <a href="#">0 Following</a>
-                <a href="#">0 Followers</a>
-            </div>
-        </section>
-
-            <section class="AllTags-mobile">
-                <h2>Search by tags</h2>
-                <div class="tags">
-                    <button class="btn" id="all">All</button>
-                    <?php foreach($AllTags as $tag) { ?>
-                        <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                    <?php } ?>
-                    <form class="form" method="POST" action="tags.php">
-                        <input class="tags" type="text" name="tag" placeholder="New tag">
-                    </form>
+            <!--Layout-->
+            <section class="profile">
+                <?php foreach($FullProfile as $edit) { ?>
+                    <div class="img">
+                        <img id="header" src="img/header.png" alt="header">
+                        <img id="icon" src="img/<?= $edit['file'] ?>" alt="pfp">
+                    </div>
+                    
+                    <div class="name">
+                        <h2><?= $edit['pseudo']; ?></h2>
+                        <p>@<?= $user["name"]; ?></p>
+                    </div>
+                    <div class="bio">
+                        <p><?=$edit['bio']; ?></p>
+                    </div>
+                <?php } ?>
+                <div class="follow">
+                    <a href="#">0 Following</a>
+                    <a href="#">0 Followers</a>
                 </div>
             </section>
 
-            <?php foreach($Allposts as $posts){ ?>
-                <?php foreach($FullProfile as $edit) { ?>
-                <section class="post">
-                    <div class="img-pfp">
-                        <img src="img/<?= $edit['file'] ?>" alt="">
+                <section class="AllTags-mobile">
+                    <h2>Search by tags</h2>
+                    <div class="tags">
+                        <div id="myBtnContainer">
+                            <button class="btn active" onclick="filterSelection('all')">All</button>
+                            <?php foreach($AllTags as $tag) { ?>
+                                <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                            <?php } ?>
+                        </div>
+                        <form class="form" method="POST" action="tags.php">
+                            <input class="tags" type="text" name="tag" placeholder="New tag">
+                        </form>
                     </div>
-                    <section class="main-post">
-                        <div class="name">
-                            <h2><?= $edit['pseudo']; ?></h2>
-                            <p>@<?= $user["name"]; ?></p>
-                        </div>
-                <?php } ?>
-
-                        <div class="text-post">
-                            <p><?= $posts['contenu'] ?></p>
-                        </div>
-
-                        <div class="img-post">
-                            <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
-                        </div>
-                    </section>
                 </section>
 
-                <div class="icons-post">
-                    <div class="icon-post">
-                        <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
-                        <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
-                        <button class="btn">Divers</button>
-                    </div>
-                    <div class="trash">
-                        <a href="#" onclick="document.getElementById('id01').style.display='block'"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                </div>
+                <?php foreach($Allposts as $posts){ ?>
+                    <?php foreach($FullProfile as $edit) { ?>
+                <article class="post-content">
+                    <section class="post">
+                        <div class="img-pfp">
+                            <img src="img/<?= $edit['file'] ?>" alt="">
+                        </div>
+                        <section class="main-post">
+                            <div class="name">
+                                <h2><?= $edit['pseudo']; ?></h2>
+                                <p>@<?= $user["name"]; ?></p>
+                            </div>
+                    <?php } ?>
 
-                <form action="../landing-page/delete.php" method="POST" id="delete">
-                    <h1>Delete post?</h1>
-                    <input type="hidden" name="supp" value="<?= $posts['id'] ?>">
-                    <button type="submit">Yes</button>
-                    <button type="button" onclick="closePopup()">No</button>
-                </form>
-            <?php } ?>
+                            <div class="text-post">
+                                <p><?= $posts['contenu'] ?></p>
+                            </div>
+
+                            <div class="img-post">
+                                <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
+                            </div>
+                        </section>
+                    </section>
+
+                    <div class="icons-post">
+                        <div class="icon-post">
+                            <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
+                            <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
+                            <div class="container">
+                                <button class="btn"><?= $posts['tag'] ?></button>
+                            </div>
+                        </div>
+                        <div class="trash">
+                            <a href="#"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+
+                    <form action="../landing-page/delete.php" method="POST" id="delete">
+                        <h1>Delete post?</h1>
+                        <input type="hidden" name="supp" value="<?= $posts['id'] ?>">
+                        <button type="submit">Yes</button>
+                        <button type="button" onclick="closePopup()">No</button>
+                    </form>
+                </article>
+                <?php } ?>
         </section>
 
         <section class="AllTags">
             <h2>Search by tags</h2>
-            <div class="tags">
-                <button class="btn" id="all">All</button>
-                <?php foreach($AllTags as $tag) { ?>
-                    <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                <?php } ?>
-                <form class="form" method="POST" action="../landing-page/tags.php">
-                    <input class="tags" type="text" name="tag" placeholder="New tag">
-                </form>
-            </div>
+                <div class="tags">
+                    <div id="myBtnContainer">
+                        <button class="btn active" onclick="filterSelection('all')">All</button>
+                        <?php foreach($AllTags as $tag) { ?>
+                            <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                        <?php } ?>
+                    </div>
+                    <form class="form" method="POST" action="tags.php">
+                        <input class="tags" type="text" name="tag" placeholder="New tag">
+                    </form>
+                </div>
         </section>
 
     </main>
@@ -195,9 +203,13 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" name="poster" value="<?= htmlspecialchars($_POST["contenu"] ?? "") ?>" placeholder="What's up?" required>
             
             <div class="tags">
-                <?php foreach($AllTags as $tag) { ?>
-                <button type="button" class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                <?php } ?>
+                <label for="tags">Tags</label>
+                <select name="tag" class="form-control">
+                    <option value="">Select a tag</option>
+                    <?php foreach($AllTags as $tag) { ?>
+                        <option value="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></option>
+                    <?php } ?>
+                </select>
             </div>
 
             <div class="bottom-post">

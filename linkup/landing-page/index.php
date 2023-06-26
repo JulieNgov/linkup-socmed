@@ -6,7 +6,7 @@ $requete = $database->prepare("SELECT * FROM tags");
 $requete->execute();
 $AllTags = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-$requete = $database->prepare("SELECT poster.id, poster.contenu, poster.date, myprofile.pseudo, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
+$requete = $database->prepare("SELECT poster.id, poster.contenu, poster.tag, poster.date, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
                                 FROM poster
                                 INNER JOIN myprofile ON poster.user_id = myprofile.id
                                 INNER JOIN user ON poster.user_id = user.id
@@ -31,7 +31,7 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-    <main>
+<main>
     <!-- Side-bar -->
         <section id="side-bar">
             <div class="logo">
@@ -42,8 +42,8 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
                 <button type="submit">Search</button>
             </form>
             <div class="propriete">
-                <p><i class="fa-solid fa-user-plus"></i><a href="../user/index.php">Log in</a></p>
                 <p><i class="fa-solid fa-right-to-bracket"></i><a href="../user/signup.php">Sign up</a></p>
+                <p><i class="fa-solid fa-right-from-bracket"></i><a href="../user/index.php">Log in</a></p>
                 <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
             </div>
         </section>
@@ -62,8 +62,8 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
                 <button type="submit">Search</button>
             </form>
             <div class="propriete">
-                <p><i class="fa-solid fa-user-plus"></i><a href="../user/index.php">Log in</a></p>
                 <p><i class="fa-solid fa-right-to-bracket"></i><a href="../user/signup.php">Sign up</a></p>
+                <p><i class="fa-solid fa-right-from-bracket"></i><a href="../user/index.php">Log in</a></p>
                 <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
             </div>
         </section>
@@ -73,62 +73,64 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             <section class="AllTags-mobile">
                 <h2>Search by tags</h2>
                 <div class="tags">
-                    <button class="btn" id="all">All</button>
-                    <?php foreach($AllTags as $tag) { ?>
-                        <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                    <?php } ?>
-                    <form class="form" method="POST" action="tags.php">
-                        <input class="tags" type="text" name="tag" placeholder="New tag">
-                    </form>
+                    <div id="myBtnContainer">
+                        <button class="btn active" onclick="filterSelection('all')">All</button>
+                        <?php foreach($AllTags as $tag) { ?>
+                            <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                        <?php } ?>
+                    </div>
                 </div>
             </section>
 
             <?php foreach($Allposts as $posts){ ?>
-                <section class="post">
-                    <div class="img-pfp">
-                        <img src="../user/img/<?= $posts['file'] ?>" alt="pfp">
-                    </div>
-                    <section class="main-post">
-                        <div class="name">
-                            <h2><?= $posts['pseudo'] ?></h2>
-                            <p><?= $posts['name'] ?></p>
+                <div class="filterDiv <?= $posts['tag'] ?>">
+                    <section class="post">
+                        <div class="img-pfp">
+                            <img src="../user/img/<?= $posts['file'] ?>" alt="pfp">
                         </div>
+                        <section class="main-post">
+                            <div class="name">
+                                <h2><?= $posts['pseudo'] ?></h2>
+                                <p><?= $posts['name'] ?></p>
+                            </div>
 
-                        <div class="text-post">
-                            <p><?= $posts['contenu'] ?></p>
-                        </div>
+                            <div class="text-post">
+                                <p><?= $posts['contenu'] ?></p>
+                            </div>
 
-                        <div class="img-post">
-                            <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
-                        </div>
+                            <div class="img-post">
+                                <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
+                            </div>
+                        </section>
                     </section>
-                </section>
 
-                <div class="icons-post">
-                    <div class="icon-post">
-                        <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
-                        <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
-                        <button class="btn">Divers</button>
+                    <div class="icons-post">
+                        <div class="icon-post">
+                            <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
+                            <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
+                            <div class="container">
+                                <button class="btn"><?= $posts['tag'] ?></button>
+                            </div>
+                        </div>
                     </div>
+                </div>
             <?php } ?>
         </section>
 
         <section class="AllTags">
             <h2>Search by tags</h2>
             <div class="tags">
-                <button class="btn" id="all">All</button>
-                <?php foreach($AllTags as $tag) { ?>
-                    <button class="btn" id="<?= $tag['tag'] ?>"><?= $tag['tag'] ?></button>
-                <?php } ?>
-                <form class="form" method="POST" action="tags.php">
-                    <input class="tags" type="text" name="tag" placeholder="New tag">
-                </form>
+                <div id="myBtnContainer">
+                    <button class="btn active" onclick="filterSelection('all')">All</button>
+                    <?php foreach($AllTags as $tag) { ?>
+                        <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
+                    <?php } ?>
+                </div>
             </div>
         </section>
-
-    </main>
-
+</main>
 
 <script src="java.js"></script>
+<script src="../user/java.js"></script>
 </body>
 </html>
