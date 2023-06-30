@@ -17,6 +17,22 @@
     background-color: rgb(191, 242, 225);
 }
 
+.btn-posts {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(191, 242, 225);
+}
+
+.btn-posts.active {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(191, 242, 225);
+}
+
 .btn:hover {
     background-color: rgb(0, 0, 0);
     color: white;
@@ -39,7 +55,7 @@
     display: block;
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 1100px) {
     .AllTags {
         display: none;
     }

@@ -11,6 +11,7 @@ if(isset($_POST['uname']) && isset($_POST['password'])) {
     }
 }
 
+//On utilise la fonction validate pour valider l'username et le pw
 $uname = validate($_POST['uname']);
 $pass = validate($_POST['password']);
 
@@ -18,6 +19,7 @@ $pass = validate($_POST['password']);
 $sql = "SELECT * FROM user WHERE user_name='$uname' AND password='$pass'";
 $result = mysqli_query($conn, $sql);
 
+//on regarde si les données sont les mêmes puis si tout est bon on se connecte
 if(mysqli_num_rows($result) === 1) {
     $row = mysqli_fetch_assoc($result);
     if($row['user_name'] === $uname && $row['password'] === $pass) {

@@ -2,11 +2,13 @@
 
 require "database.php";
 
+//Tags
 $requete = $database->prepare("SELECT * FROM tags");
 $requete->execute();
 $AllTags = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-$requete = $database->prepare("SELECT poster.id, poster.contenu, poster.tag, poster.date, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
+//Postes
+$requete = $database->prepare("SELECT poster.id, poster.contenu, poster.tag, poster.image, poster.date, myprofile.pseudo, myprofile.bio, myprofile.file, user.name
                                 FROM poster
                                 INNER JOIN myprofile ON poster.user_id = myprofile.id
                                 INNER JOIN user ON poster.user_id = user.id
@@ -30,17 +32,20 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Pop up -->
+    <div class="modal" id="modal">
+        <div class="modal-back"></div>
+        <div class="modal-container">
+            <p><a href="../user/signup.php">Sign up</a> or <a href="../user/index.php">Log in</a> to see more</p>
+        </div>
+    </div>
 
-<main>
-    <!-- Side-bar -->
+    <main>
+        <!-- Side-bar -->
         <section id="side-bar">
             <div class="logo">
                 <h2 class="logo">LinkUP</h2>
             </div>
-            <form action="" class="search">
-                <input type="search" name="search" placeholder="Search post">
-                <button type="submit">Search</button>
-            </form>
             <div class="propriete">
                 <p><i class="fa-solid fa-right-to-bracket"></i><a href="../user/signup.php">Sign up</a></p>
                 <p><i class="fa-solid fa-right-from-bracket"></i><a href="../user/index.php">Log in</a></p>
@@ -52,6 +57,7 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
         </div>
 
+        <!-- Side-bar mobile -->
         <section id="side-bar-mobile">
             <div class="logo">
                 <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
@@ -68,12 +74,13 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </section>
 
+        <!-- TIME LINE -->
         <section class="time-line">
-
+            <!-- Tags mobile -->   
             <section class="AllTags-mobile">
                 <h2>Search by tags</h2>
                 <div class="tags">
-                    <div id="myBtnContainer">
+                    <div id="myBtnContainerMobile">
                         <button class="btn active" onclick="filterSelection('all')">All</button>
                         <?php foreach($AllTags as $tag) { ?>
                             <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
@@ -81,7 +88,8 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </section>
-
+            
+            <!-- Postes -->
             <?php foreach($Allposts as $posts){ ?>
                 <div class="filterDiv <?= $posts['tag'] ?>">
                     <section class="post">
@@ -99,7 +107,9 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
                             </div>
 
                             <div class="img-post">
-                                <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
+                                <?php if(!empty($posts['image'])) { ?>
+                                    <img src="../user/img/<?= $posts['image'] ?>" alt="image">
+                                <?php } ?>
                             </div>
                         </section>
                     </section>
@@ -128,9 +138,9 @@ $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </section>
-</main>
+    </main>
 
-<script src="java.js"></script>
-<script src="../user/java.js"></script>
+    <script src="java.js"></script>
+    <script src="../user/java.js"></script>
 </body>
 </html>

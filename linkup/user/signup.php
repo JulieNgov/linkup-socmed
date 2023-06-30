@@ -10,7 +10,7 @@
 <body>
     <section class="all-form">
         <h1>Sign up</h1>
-        <form class="form" method="POST" action="sign-up-insert.php" novalidate>
+        <form class="form" method="POST" action="sign-up-insert.php">
 
             <div class="form">
                 <label for="name">Name :</label>

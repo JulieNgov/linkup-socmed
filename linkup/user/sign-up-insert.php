@@ -23,7 +23,8 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
 }
 
-//Password security - Met des chiffres et nombres random à la place du mdp
+//Password security - Met des chiffres et lettres random à la place du mdp dans la
+//base de données
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require "db_conn.php";
@@ -37,7 +38,9 @@ if ( ! $stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->error);
 }
 
-
+//bind_param : réunit les paramètres et regarde quels sont les paramètres,
+//cela permet de valider les data
+//sss : liste quels sont les types de data, ici 3 string
 $stmt->bind_param("sss",
                   $_POST["name"],
                   $_POST["email"],

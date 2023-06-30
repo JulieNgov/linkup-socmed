@@ -1,5 +1,6 @@
 <?php
 
+//Variable boolean
 $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -24,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             
             $_SESSION["user_id"] = $user["id"];
             
-            header("Location: profile.php");
+            header("Location: profile.php?search=");
             exit;
         }
     }

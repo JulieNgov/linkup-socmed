@@ -7,6 +7,7 @@
 @import url("profile-edit.css");
 @import url("layout.css");
 @import url("forms.css");
+@import url("popup-index.css");
 
 element {
     --bg: rgb(191, 242, 225);

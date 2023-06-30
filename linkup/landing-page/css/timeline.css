@@ -38,6 +38,10 @@
     display: flex;
 }
 
+.date {
+    padding-left: 150px;
+}
+
 .name h2 {
     font-size: 20px;
 }

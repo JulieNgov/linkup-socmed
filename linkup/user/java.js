@@ -1,17 +1,20 @@
-SuppContainer = document.querySelectorAll("#delete")
+//tags filtre
 
-//TAGS
+var btnContainer = document.getElementById("myBtnContainer");
+var btnContainerMobile = document.getElementById("myBtnContainerMobile");
+var btns = btnContainer.getElementsByClassName("btn");
+var btnsMobile = btnContainerMobile.getElementsByClassName("btn");
 
 //on appelle la fonction pour le bouton 'all'
 filterSelection("all")
 
-//2 variables : x prend tous les éléments de la classe filterDiv (les postes avec le tag)
-// si c = all; on fait rien
+//annonce 2 variables;
+//x prend tous les éléments de la classe filterDiv (les postes avec le tag)
+// si le paramètre c = all; on fait rien
 //x.length : on prend le total des postes contenant le tag
 // et on enlève la classe 'show' pour tous les éléments sans le tag
 // puis pour chaque poste, on met la classe 'show' si la classe existe
 //indexOf = change le string en int
-
 function filterSelection(c) {
   var x, i;
   x = document.getElementsByClassName("filterDiv");
@@ -30,8 +33,6 @@ function filterSelection(c) {
 //non, on l'ajoute dans l'html
 // -1 = pas présent
 // += concatenation des strings/booleans (ex : true = 1)
-
-
 function w3AddClass(element, name) {
   var i, arr1, arr2;
   arr1 = element.className.split(" ");
@@ -56,12 +57,20 @@ function w3RemoveClass(element, name) {
   element.className = arr1.join(" ");
 }
 
-//Ajoute la classe 'active' sur le bouton tag cliqué
-var btnContainer = document.getElementById("myBtnContainer");
-var btns = btnContainer.getElementsByClassName("btn");
+//Ordi : changer le active du tag lors du clic
 for (var i = 0; i < btns.length; i++) {
   btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
+    var current = btnContainer.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+
+
+//Mobile
+for (var i = 0; i < btnsMobile.length; i++) {
+  btnsMobile[i].addEventListener("click", function() {
+    var current = btnContainerMobile.getElementsByClassName("active");
     current[0].className = current[0].className.replace(" active", "");
     this.className += " active";
   });
@@ -69,14 +78,7 @@ for (var i = 0; i < btns.length; i++) {
 
 
 
-
-//Form Supprimer
-
-function closePopup() {
-  document.querySelector('#delete').style.display = 'none';
-}
-
-// Gestion des modal
+// Gestion des modal Supprimer
 let trash = document.querySelectorAll('.trash')
 
 if(trash != null) {
@@ -86,6 +88,20 @@ if(trash != null) {
     item.addEventListener('click', function(e) {
       e.preventDefault() // Eviter que cela se comporte comme un lien
       item.closest('.post-content').querySelector('form').style.display = 'block'
+    })
+  })
+}
+
+//Button supp non
+let nobutton = document.querySelectorAll('.nosupp')
+
+if(nobutton != null) {
+ 
+  nobutton.forEach(function(item) {
+
+    item.addEventListener('click', function(e) {
+      e.preventDefault() // Eviter que cela se comporte comme un lien
+      item.closest('.post-content').querySelector('form').style.display = 'none'
     })
   })
 }

@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 if (isset($_SESSION["user_id"])) {
     
     $mysqli = require "db_conn.php";
@@ -28,34 +29,32 @@ if (isset($_SESSION["user_id"])) {
 
 <?php if (isset($user)){ ?>
 
-        <section class="all-form">
-            <h1>Edit profile</h1>
-            <form method="POST" action="insert-edit.php">
-                <div class="form">
-                    <label for="pseudo">Pseudo :</label>
-                    <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo">
-                </div>
+    <section class="all-form">
+        <h1>Edit profile</h1>
+        <form method="POST" action="insert-edit.php">
+            <div class="form">
+                <label for="pseudo">Pseudo :</label>
+                <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo">
+            </div>
 
-                <div class="form">
-                    <label for="bio">Bio :</label>
-                    <input type="text" name="bio" id="bio" placeholder="Bio">
-                </div>
-            
-                <button type="submit">Submit</button>
-            </form>
+            <div class="form">
+                <label for="bio">Bio :</label>
+                <input type="text" name="bio" id="bio" placeholder="Bio">
+            </div>
+        
+            <button type="submit">Submit</button>
+        </form>
 
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-                <div class="form">
-                <label for="file">Upload profile picture :</label>
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <button type="submit">Submit image</button>
-                </div>
-            </form>
+        <form action="upload.php" method="post" enctype="multipart/form-data">
+            <div class="form">
+            <label for="file">Upload profile picture :</label>
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <button type="submit">Submit image</button>
+            </div>
+        </form>
 
-            <a href="profile.php">Return to profile</a>
-        </section>
-
-    </main>
+        <a href="profile.php">Return to profile</a>
+    </section>
 
 <?php }else{ ?>
         

@@ -1,6 +1,9 @@
 <?php
 
+//Commencer ou load une session existante
 session_start();
+
+//isset : inverse de empty
 if (isset($_SESSION["user_id"])) {
     
     $mysqli = require "db_conn.php";
@@ -15,19 +18,25 @@ if (isset($_SESSION["user_id"])) {
 }
 
 require "database.php";
+
 $userID = $_SESSION['user_id'];
 
+//Postes
 $requete = $database->prepare("SELECT * FROM poster WHERE user_id = $userID ORDER BY date DESC");
 $requete->execute();
 $Allposts = $requete->fetchAll(PDO::FETCH_ASSOC);
 
+//Tags
 $requete = $database->prepare("SELECT * FROM tags");
 $requete->execute();
 $AllTags = $requete->fetchAll(PDO::FETCH_ASSOC);
 
+//Profile
 $requete = $database->prepare("SELECT * FROM myprofile WHERE id = $userID");
 $requete->execute();
 $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+
     ?>
 
 <!DOCTYPE html>
@@ -45,116 +54,113 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-<main>
-
-    <?php if (isset($user)){ ?>
-    <!-- Side-bar -->
-        <section id="side-bar">
-            <div class="logo">
-                <h2 class="logo">LinkUP</h2>
-            </div>
-            <form action="" class="search">
-                <input type="search" name="search" placeholder="Search post">
-                <button type="submit">Search</button>
-            </form>
-            <div class="propriete">
-                <p><i class="fa-solid fa-house"></i><a href="home.php">Home</a></p>
-                <p><i class="fa-solid fa-user-pen"></i><a href="edit.php" onclick="openEdit();">Edit Profile</a></p>
-                <p><i class="fa-solid fa-right-from-bracket"></i><a href="logout.php">Log out</a></p>
-                <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
-            </div>
-        </section>
-
-        <div class="barre">
-            <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
-        </div>
-
-        <section id="side-bar-mobile">
-            <div class="logo">
-                <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
-                <h2 class="logo">LinkUP</h2>
-            </div>
-            <form action="" class="search">
-                <input type="search" name="search" placeholder="Search post">
-                <button type="submit">Search</button>
-            </form>
-            <div class="propriete">
-                <p><i class="fa-solid fa-house"></i><a href="home.php">Home</a></p>
-                <p><i class="fa-solid fa-user-pen"></i><a href="edit.php">Edit Profile</a></p>
-                <p><i class="fa-solid fa-right-from-bracket"></i><a href="logout.php">Log out</a></p>
-                <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
-            </div>
-        </section>
-
-        <section class="time-line">
-
-            <!--Layout-->
-            <section class="profile">
-                <?php foreach($FullProfile as $edit) { ?>
-                    <div class="img">
-                        <img id="header" src="img/header.png" alt="header">
-                        <img id="icon" src="img/<?= $edit['file'] ?>" alt="pfp">
-                    </div>
-                    
-                    <div class="name">
-                        <h2><?= $edit['pseudo']; ?></h2>
-                        <p>@<?= $user["name"]; ?></p>
-                    </div>
-                    <div class="bio">
-                        <p><?=$edit['bio']; ?></p>
-                    </div>
-                <?php } ?>
-                <div class="follow">
-                    <a href="#">0 Following</a>
-                    <a href="#">0 Followers</a>
+    <main>
+        <?php if (isset($user)){ ?>
+            <!-- Side-bar (gauche) -->
+            <section id="side-bar">
+                <div class="logo">
+                    <h2 class="logo">LinkUP</h2>
+                </div>
+                <div class="propriete">
+                    <p><i class="fa-solid fa-house"></i><a href="home.php?search=">Home</a></p>
+                    <p><i class="fa-solid fa-user-pen"></i><a href="edit.php" onclick="openEdit();">Edit Profile</a></p>
+                    <p><i class="fa-solid fa-right-from-bracket"></i><a href="logout.php">Log out</a></p>
+                    <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
                 </div>
             </section>
 
+            <div class="barre">
+                <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
+            </div>
+
+            <section id="side-bar-mobile">
+                <div class="logo">
+                    <a href="#" onclick="NavMenu()"><i class="fa-solid fa-bars"></i></a>
+                    <h2 class="logo">LinkUP</h2>
+                </div>
+                <div class="propriete">
+                    <p><i class="fa-solid fa-house"></i><a href="home.php?search=">Home</a></p>
+                    <p><i class="fa-solid fa-user-pen"></i><a href="edit.php">Edit Profile</a></p>
+                    <p><i class="fa-solid fa-right-from-bracket"></i><a href="logout.php">Log out</a></p>
+                    <p><i class="fa-solid fa-gear"></i><a href="#">Settings</a></p>
+                </div>
+            </section>
+
+            <!-- TimeLine -->
+            <section class="time-line">
+                <!--Layout-->
+                <section class="profile">
+                    <?php foreach($FullProfile as $edit) { ?>
+                        <div class="img">
+                            <img id="header" src="img/header.png" alt="header">
+                            <img id="icon" src="img/<?= $edit['file'] ?>" alt="pfp">
+                        </div>
+                        
+                        <div class="name">
+                            <h2><?= $edit['pseudo']; ?></h2>
+                            <p>@<?= $user["name"]; ?></p>
+                        </div>
+                        <div class="bio">
+                            <p><?=$edit['bio']; ?></p>
+                        </div>
+                    <?php } ?>
+                    <div class="follow">
+                        <a href="#">0 Following</a>
+                        <a href="#">0 Followers</a>
+                    </div>
+                </section>
+
+                <!--Tags mobile-->
                 <section class="AllTags-mobile">
                     <h2>Search by tags</h2>
                     <div class="tags">
-                        <div id="myBtnContainer">
+                        <div id="myBtnContainerMobile">
                             <button class="btn active" onclick="filterSelection('all')">All</button>
                             <?php foreach($AllTags as $tag) { ?>
                                 <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
                             <?php } ?>
                         </div>
-                        <form class="form" method="POST" action="tags.php">
-                            <input class="tags" type="text" name="tag" placeholder="New tag">
-                        </form>
                     </div>
                 </section>
 
                 <?php foreach($Allposts as $posts){ ?>
                     <?php foreach($FullProfile as $edit) { ?>
-                <article class="post-content">
-                    <section class="post">
-                        <div class="img-pfp">
-                            <img src="img/<?= $edit['file'] ?>" alt="">
-                        </div>
+                        <article class="post-content">
+                        <div class="filterDiv <?= $posts['tag'] ?>">
+                        <section class="post">
+                            <div class="img-pfp">
+                                <img src="img/<?= $edit['file'] ?>" alt="">
+                            </div>
                         <section class="main-post">
                             <div class="name">
-                                <h2><?= $edit['pseudo']; ?></h2>
-                                <p>@<?= $user["name"]; ?></p>
+                                <div class="name">
+                                    <h2><?= $edit['pseudo']; ?></h2>
+                                    <p>@<?= $user["name"]; ?></p>
+                                </div>
+                                <div class="date">
+                                    <p><?= date($posts['date']) ?></p>
+                                </div>
                             </div>
                     <?php } ?>
 
-                            <div class="text-post">
-                                <p><?= $posts['contenu'] ?></p>
-                            </div>
+                        <div class="text-post">
+                            <p><?= $posts['contenu'] ?></p>
+                        </div>
 
-                            <div class="img-post">
-                                <img src="https://fastly.picsum.photos/id/1064/200/200.jpg?hmac=xUH-ovzKEHg51S8vchfOZNAOcHB6b1TI_HzthmqvcWU" alt="image">
-                            </div>
+                        <div class="img-post">
+                            <?php if(!empty($posts['image'])) { ?>
+                            <img src="img/<?= $posts['image'] ?>" alt="image">
+                            <?php } ?>
+                        </div>
                         </section>
-                    </section>
+                        </section>
 
                     <div class="icons-post">
                         <div class="icon-post">
                             <p class="heart"><i class="fa-solid fa-heart"></i><a href="#">0</a></p>
                             <p class="comment"><i class="fa-sharp fa-solid fa-comment"></i><a href="#">0</a></p>
                             <div class="container">
-                                <button class="btn"><?= $posts['tag'] ?></button>
+                                <button class="btn-posts"><?= $posts['tag'] ?></button>
                             </div>
                         </div>
                         <div class="trash">
@@ -166,14 +172,15 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
                         <h1>Delete post?</h1>
                         <input type="hidden" name="supp" value="<?= $posts['id'] ?>">
                         <button type="submit">Yes</button>
-                        <button type="button" onclick="closePopup()">No</button>
+                        <button type="button" class="nosupp">No</button>
                     </form>
-                </article>
+                        </div>
+                        </article>
                 <?php } ?>
-        </section>
+            </section>
 
-        <section class="AllTags">
-            <h2>Search by tags</h2>
+            <section class="AllTags">
+                <h2>Search by tags</h2>
                 <div class="tags">
                     <div id="myBtnContainer">
                         <button class="btn active" onclick="filterSelection('all')">All</button>
@@ -181,27 +188,27 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
                             <button class="btn" onclick="filterSelection('<?= $tag['tag'] ?>')"><?= $tag['tag'] ?></button>
                         <?php } ?>
                     </div>
-                    <form class="form" method="POST" action="tags.php">
+                    <form class="form" method="POST" action="../landing-page/tags.php">
                         <input class="tags" type="text" name="tag" placeholder="New tag">
                     </form>
                 </div>
-        </section>
-
+            </section>
     </main>
 
-<!-- Bouton poster -->
+    <!-- Bouton poster -->
     <p class="floating-button">
         <a href="#" onclick="openPost();"><i class="fa-solid fa-pen"></i></a>
     </p>
 
 
 
-<!--Forme pour faire un poste-->
+    <!--Forme pour faire un poste-->
     <section class="make-post" id="make-post">
         <h2 class="title-post">Make a post</h2>
-        <form class="form" method="POST" action="../landing-page/insert-post.php">
+        <!-- Ecrire text -->
+        <form class="form" method="POST" action="../landing-page/insert-post.php" enctype="multipart/form-data">
             <input type="text" name="poster" value="<?= htmlspecialchars($_POST["contenu"] ?? "") ?>" placeholder="What's up?" required>
-            
+            <!-- Choose Tag -->
             <div class="tags">
                 <label for="tags">Tags</label>
                 <select name="tag" class="form-control">
@@ -213,19 +220,22 @@ $FullProfile = $requete->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="bottom-post">
+                <!-- Upload Img -->
+                <input type="hidden" name="size" value="200000">
+                <input type="file" name="image" accept="image/jpg,image/png,image/jpeg,image/gif,">
+
                 <p><a href="#"><i class="fa-solid fa-image"></i></a></p>
                 <div class="buttons">
-                    <button type="submit">Post</button>
+                    <button type="submit" name="upload">Post</button>
                     <button type="button" onclick="closePost();">Cancel</button>
                 </div>
-            </div>
-            
+            </div>            
         </form>
     </section>
 
     <?php }else{ ?>
         
-        <p><a href="index.php">Log in</a> or <a href="signup.php">sign up</a></p>
+        <p><a href="index.php">Log in</a> or <a href="signup.php">Sign up</a></p>
         
     <?php }; ?>
 

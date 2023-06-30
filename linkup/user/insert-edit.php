@@ -14,7 +14,7 @@ if (isset($_SESSION["user_id"])) {
     $user = $result->fetch_assoc();
 }
  
-    require "database.php";
+require "database.php";
 
     
         $userID = $_SESSION['user_id'];
